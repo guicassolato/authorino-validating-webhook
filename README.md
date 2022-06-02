@@ -262,6 +262,12 @@ spec:
 EOF
 ```
 
+Output:
+
+```
+Error from server: error when creating "STDIN": admission webhook "check-authconfig.authorino.kuadrant.io" denied the request: Unauthorized
+```
+
 ### `AuthConfig` with Keycloak ([▶︎](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=demo$$kubectl%20apply%20-f%20https://raw.githubusercontent.com/guicassolato/authorino-validating-webhook/main/manifests/myapp-protection-keycloak.yaml))
 
 ```sh
@@ -278,6 +284,12 @@ spec:
     oidc:
       endpoint: http://keycloak.keycloak.svc.cluster.local:8080/auth/realms/kuadrant
 EOF
+```
+
+Output:
+
+```
+authconfig.authorino.kuadrant.io/myapp-protection created
 ```
 
 ### `AuthConfig` with Dex
@@ -301,6 +313,17 @@ spec:
     oidc:
       endpoint: http://dex.dex.svc.cluster.local:5556
 EOF
+```
+
+Output:
+
+```
+Error from server: error when applying patch:
+{"metadata":{"annotations":{"kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"authorino.kuadrant.io/v1beta1\",\"kind\":\"AuthConfig\",\"metadata\":{\"annotations\":{},\"name\":\"myapp-protection\",\"namespace\":\"apps\"},\"spec\":{\"hosts\":[\"myapp.io\"],\"identity\":[{\"name\":\"keycloak\",\"oidc\":{\"endpoint\":\"http://keycloak.keycloak.svc.cluster.local:8080/auth/realms/kuadrant\"}},{\"name\":\"dex\",\"oidc\":{\"endpoint\":\"http://dex.dex.svc.cluster.local:5556\"}}]}}\n"}},"spec":{"identity":[{"name":"keycloak","oidc":{"endpoint":"http://keycloak.keycloak.svc.cluster.local:8080/auth/realms/kuadrant"}},{"name":"dex","oidc":{"endpoint":"http://dex.dex.svc.cluster.local:5556"}}]}}
+to:
+Resource: "authorino.kuadrant.io/v1beta1, Resource=authconfigs", GroupVersionKind: "authorino.kuadrant.io/v1beta1, Kind=AuthConfig"
+Name: "myapp-protection", Namespace: "apps"
+for: "STDIN": admission webhook "check-authconfig.authorino.kuadrant.io" denied the request: Not authorized: unknown reason
 ```
 
 As admin, grant permission to the user: ([▶︎](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=demo$$kubectl%20--user=kind-authorino-demo%20-n%20authorino%20apply%20-f%20https://raw.githubusercontent.com/guicassolato/authorino-validating-webhook/main/manifests/rolebinding.yaml))
@@ -340,6 +363,12 @@ spec:
     oidc:
       endpoint: http://dex.dex.svc.cluster.local:5556
 EOF
+```
+
+Output:
+
+```
+authconfig.authorino.kuadrant.io/myapp-protection configured
 ```
 
 ## Cleanup ([▶︎](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=demo$$kind%20delete%20cluster%20--name%20authorino-demo%0Akubectl%20config%20unset%20users.john))
