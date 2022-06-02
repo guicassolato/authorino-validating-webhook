@@ -1,0 +1,11 @@
+apiVersion: authorino.kuadrant.io/v1beta1
+kind: AuthConfig
+metadata:
+  name: myapp-protection
+spec:
+  hosts:
+  - myapp.io
+  identity:
+  - name: api-key
+    apiKey:
+      labelSelectors: { app: myapp }

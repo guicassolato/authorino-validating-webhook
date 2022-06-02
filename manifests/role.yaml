@@ -1,0 +1,8 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: dex-user
+rules:
+- apiGroups: ["sso.company.com"]
+  resources: ["dex"] # not a real k8s resource
+  verbs: ["use"] # not a real k8s verb

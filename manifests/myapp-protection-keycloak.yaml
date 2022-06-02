@@ -1,0 +1,11 @@
+apiVersion: authorino.kuadrant.io/v1beta1
+kind: AuthConfig
+metadata:
+  name: myapp-protection
+spec:
+  hosts:
+  - myapp.io
+  identity:
+  - name: keycloak
+    oidc:
+      endpoint: http://keycloak.keycloak.svc.cluster.local:8080/auth/realms/kuadrant

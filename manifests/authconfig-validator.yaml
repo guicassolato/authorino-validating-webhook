@@ -1,0 +1,50 @@
+apiVersion: authorino.kuadrant.io/v1beta1
+kind: AuthConfig
+metadata:
+  name: authconfig-validator
+spec:
+  # admissionreview requests will be sent to this host name
+  hosts:
+  - authorino-authorino-authorization.authorino.svc
+
+  # because we're using a single authorino instance for the validating webhook and to protect the user applications,
+  # skip operations related to this one authconfig in the 'authorino' namespace
+  when:
+  - selector: context.request.http.body.@fromstr|request.object.metadata.namespace
+    operator: neq
+    value: authorino
+
+  # kubernetes admissionreviews carry info about the authenticated user
+  identity:
+  - name: k8s-userinfo
+    plain:
+      authJSON: context.request.http.body.@fromstr|request.userInfo
+
+  authorization:
+  - name: check-identity
+    opa:
+      allValues: true
+      inlineRego: |
+        authconfig = json.unmarshal(input.context.request.http.body).request.object
+        forbidden { authconfig.spec.identity[_].apiKey }
+        forbidden { authconfig.spec.identity[_].oauth2 }
+        forbidden { authconfig.spec.identity[_].kubernetes }
+        forbidden { authconfig.spec.identity[_].plain }
+        forbidden { authconfig.spec.identity[_].anonymous }
+        using_dex { startswith(authconfig.spec.identity[_].oidc.endpoint, "http://dex") }
+        allow { count(authconfig.spec.identity) > 0; not forbidden }
+
+  - name: k8s-rbac
+    priority: 1 # so it waits for the opa policy first
+    when:
+    - selector: auth.authorization.check-identity.using_dex
+      operator: eq
+      value: "true"
+    kubernetes:
+      user:
+        valueFrom: { authJSON: auth.identity.username }
+      resourceAttributes:
+        namespace: { value: authorino }
+        group: { value: sso.company.com }
+        resource: { value: dex }
+        verb: { value: use }

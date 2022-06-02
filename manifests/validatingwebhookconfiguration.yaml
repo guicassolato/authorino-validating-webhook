@@ -1,0 +1,22 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: authconfig-authz
+  annotations:
+    cert-manager.io/inject-ca-from: authorino/authorino-ca-cert
+webhooks:
+- name: check-authconfig.authorino.kuadrant.io
+  clientConfig:
+    service:
+      namespace: authorino
+      name: authorino-authorino-authorization
+      port: 5001
+      path: /check
+  rules:
+  - apiGroups: ["authorino.kuadrant.io"]
+    apiVersions: ["v1beta1"]
+    resources: ["authconfigs"]
+    operations: ["CREATE", "UPDATE"]
+    scope: Namespaced
+  sideEffects: None
+  admissionReviewVersions: ["v1"]

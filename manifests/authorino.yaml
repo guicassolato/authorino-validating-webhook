@@ -1,0 +1,16 @@
+apiVersion: operator.authorino.kuadrant.io/v1beta1
+kind: Authorino
+metadata:
+  name: authorino
+spec:
+  clusterWide: true
+  listener:
+    ports:
+      http: 5001 # for admissionreview requests sent by the kube-api-server
+    tls:
+      certSecretRef:
+        name: authorino-server-cert
+  oidcServer:
+    tls:
+      certSecretRef:
+        name: authorino-oidc-server-cert
