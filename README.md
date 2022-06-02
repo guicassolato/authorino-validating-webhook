@@ -16,8 +16,8 @@ For convinience, the same instance of Authorino used to enforce the AuthConfig a
 
 ## Requirements
 
-- Docker
-- Kind
+- [Docker](https://docs.docker.com/engine/install/)
+- [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 
 ## 1. Create the cluster: ([▶︎](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=demo$$kind%20create%20cluster%20--name%20authorino-demo))
 
