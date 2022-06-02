@@ -228,11 +228,11 @@ kubectl get csr/john -o jsonpath='{.status.certificate}' | base64 -d > /tmp/john
 kubectl config set-credentials john --client-certificate=/tmp/john.crt --client-key=/tmp/john.key --embed-certs=true
 ```
 
-Create a namespace and grant permissions for the user: ([▶︎](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=demo$$kubectl%20create%20namespace%20apps%0Akubectl%20create%20role%20namespace-owner%20--verb=%22*%22%20--resource=%22*%22%20-n%20apps%0Akubectl%20create%20rolebinding%20namespace-owners%20--role=namespace-owner%20--user=john%20-n%20apps))
+Create a namespace and grant permissions for the user: ([▶︎](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=demo$$kubectl%20create%20namespace%20apps%0Akubectl%20create%20role%20namespace-owner%20--verb=%22*%22%20--resource=%22*.*%22%20-n%20apps%0Akubectl%20create%20rolebinding%20namespace-owners%20--role=namespace-owner%20--user=john%20-n%20apps))
 
 ```sh
 kubectl create namespace apps
-kubectl create role namespace-owner --verb="*.*" --resource="*" -n apps
+kubectl create role namespace-owner --verb="*" --resource="*.*" -n apps
 kubectl create rolebinding namespace-owners --role=namespace-owner --user=john -n apps
 ```
 
