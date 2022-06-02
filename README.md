@@ -218,7 +218,7 @@ spec:
   usages:
   - client auth
   - digital signature
-  - key encipherment"
+  - key encipherment
   groups:
   - system:authenticated
 EOF
