@@ -12,6 +12,10 @@ This user guide provides an example of using Authorino as a Kubernetes Validatin
 
 For convinience, the same instance of Authorino used to enforce the AuthConfig associated with the validating webhook will also be targeted for the sample AuthConfigs created to test the validation. For using different instances of Authorino for the validating webhook and for protecting applications behind a proxy, check out the section about [sharding](./../architecture.md#sharding) in the docs. There is also a [user guide](./sharding.md) on the topic, with concrete examples.
 
+Here's how the architecture and data plane (dotted lines) of using Authorino as a Validating Webhook service will look like:
+
+![Architecture](./architecture.png)
+
 <br/>
 
 ## Requirements
