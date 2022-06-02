@@ -170,10 +170,10 @@ rules:
 EOF
 ```
 
-## 7. Create the `ValidatingWebhookConfiguration` ([▶︎](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=demo$$kubectl%20-n%20authorino%20apply%20-f%20https://raw.githubusercontent.com/guicassolato/authorino-validating-webhook/main/manifests/validatingwebhookconfiguration.yaml))
+## 7. Create the `ValidatingWebhookConfiguration` ([▶︎](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=demo$$kubectl%20apply%20-f%20https://raw.githubusercontent.com/guicassolato/authorino-validating-webhook/main/manifests/validatingwebhookconfiguration.yaml))
 
 ```sh
-kubectl -n authorino apply -f -<<EOF
+kubectl apply -f -<<EOF
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
